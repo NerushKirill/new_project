@@ -3,7 +3,7 @@ setlocal enabledelayedexpansion
 
 REM Project name prompt
 set main_path=%cd%
-set project_dir=C:\Users\User\PycharmProjects
+set project_dir=Z:\Projects
 set /p project_name="Entetr name youe project: "
 
 REM Creating a Project Directory
@@ -24,7 +24,6 @@ mkdir %project_dir%\%project_name%\%project_name%
 REM Creating the necessary files
 type nul > %project_dir%\%project_name%\%project_name%\README.md
 type nul > %project_dir%\%project_name%\%project_name%\LICENSE
-type nul > %project_dir%\%project_name%\%project_name%\Dockerfile
 type nul > %project_dir%\%project_name%\%project_name%\docker-compose.yaml
 type nul > %project_dir%\%project_name%\%project_name%\pre-commit.yaml
 type nul > %project_dir%\%project_name%\%project_name%\.env.development
@@ -45,6 +44,7 @@ copy %main_path%\files\main.py %project_dir%\%project_name%\%project_name%
 copy %main_path%\files\Makefile %project_dir%\%project_name%\%project_name%
 copy %main_path%\files\.gitignore %project_dir%\%project_name%\%project_name%
 copy %main_path%\files\.dockerignore %project_dir%\%project_name%\%project_name%
+copy %main_path%\files\Dockerfile %project_dir%\%project_name%\%project_name%
 
 REM Deactivating a virtual environment
 deactivate
