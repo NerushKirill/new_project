@@ -1,0 +1,18 @@
+version: "3"
+
+services:
+  workspace:
+    container_name: "python_base"
+    image: python_base
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./storage:/app
+    networks:
+      - custom
+    command: tail -f /dev/null
+
+networks:
+  custom:
+    driver: bridge

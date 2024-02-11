@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
+from settings import settings
 
 
 def main():
-    pass
+    print(settings.test_env)
 
 
 if __name__ == '__main__':

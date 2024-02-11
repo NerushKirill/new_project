@@ -7,5 +7,7 @@ class Settings(BaseSettings):
         env_file_encoding="utf-8",
     )
 
+    test_env: str
+
 
 settings = Settings()

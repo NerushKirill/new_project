@@ -1,6 +1,6 @@
 build:
-	docker build . --tag my_project
+	docker build -t python_base .
 up:
-	docker-compose -f ./docker-compose-local.yaml up -d
+	docker-compose up -d
 down:
-	docker-compose -f ./docker-compose-local.yaml down && docker network prune --force
+	docker-compose down
