@@ -24,7 +24,7 @@ RUN curl -sSL https://install.python-poetry.org | python -
 FROM python-base AS python-poetry
 COPY --from=python-poetry-builder $POETRY_HOME $POETRY_HOME
 
-WORKDIR /app
-COPY ./app /app
+WORKDIR /src
+COPY . /src
 
 CMD ["poetry", "install"]

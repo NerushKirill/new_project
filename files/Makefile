@@ -1,3 +1,5 @@
+check:
+	python main.py
 build:
 	docker build -t python_base .
 up:
