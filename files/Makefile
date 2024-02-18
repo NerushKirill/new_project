@@ -1,7 +1,7 @@
 check:
 	python main.py
 build:
-	docker build -t python_base .
+	docker build -t fastapi_lessons .
 up:
 	docker-compose up -d
 down:

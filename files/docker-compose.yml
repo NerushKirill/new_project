@@ -2,13 +2,13 @@ version: "3"
 
 services:
   workspace:
-    container_name: "python_base"
-    image: python_base
+    container_name: "fastapi_lessons"
+    image: fastapi_lessons
     build:
       context: .
       dockerfile: Dockerfile
     volumes:
-      - ./storage:/src
+      - ./storage:/src/storage
     networks:
       - custom
     command: tail -f /dev/null

@@ -40,13 +40,11 @@ copy %main_path%\files\commands %project_dir%\%project_name%
 
 copy %main_path%\files\settings.py %project_dir%\%project_name%\%project_name%
 copy %main_path%\files\main.py %project_dir%\%project_name%\%project_name%
-copy %main_path%\files\Makefile %project_dir%\%project_name%\%project_name%
 copy %main_path%\files\.env.development %project_dir%\%project_name%\%project_name%
 copy %main_path%\files\.gitignore %project_dir%\%project_name%\%project_name%
 copy %main_path%\files\.dockerignore %project_dir%\%project_name%\%project_name%
-copy %main_path%\files\Dockerfile %project_dir%\%project_name%\%project_name%
-copy %main_path%\files\docker-compose.yml %project_dir%\%project_name%\%project_name%
 copy %main_path%\files\README.md %project_dir%\%project_name%\%project_name%
+
 
 REM Create pyproject.toml
 (
@@ -61,11 +59,80 @@ echo [tool.poetry.dependencies]
 echo python = "^3.11"
 echo pydantic-settings = "^2.1.0"
 echo.
+echo.[tool.poetry.group.dev.dependencies]
+echo.
 echo.
 echo [build-system]
 echo requires = ["poetry-core"]
 echo build-backend = "poetry.core.masonry.api"
 ) > %project_dir%\%project_name%\%project_name%\pyproject.toml
+
+
+REM Add to Dockerfile
+(
+echo # Default to the latest slim version of Python
+echo ARG PYTHON_IMAGE_TAG=3.11.8-alpine3.19
+echo.
+echo # POETRY BASE IMAGE - Provides environment variables for poetry
+echo FROM python:${PYTHON_IMAGE_TAG} AS python-base
+echo.
+echo # POETRY BUILDER IMAGE - Installs Poetry and dependencies
+echo FROM python-base AS python-poetry-builder
+echo.
+echo RUN pip install --upgrade pip
+echo RUN apk add gcc musl-dev libffi-dev
+echo RUN pip install poetry
+echo.
+echo # POETRY RUNTIME IMAGE - Copies the poetry installation into a smaller image
+echo FROM python-poetry-builder AS python-poetry
+echo COPY --from=python-poetry-builder $POETRY_HOME $POETRY_HOME
+echo.
+echo # MY PROJECTS
+echo FROM python-poetry AS %project_name%
+echo.
+echo WORKDIR /%project_name%
+echo COPY . /%project_name%
+echo.
+echo "RUN poetry config virtualenvs.create false && poetry install --no-interaction --no-ansi --without dev"
+) > %project_dir%\%project_name%\%project_name%\Dockerfile
+
+
+REM Add to docker-compose.yml
+(
+echo version: "3"
+echo.
+echo services:
+echo   workspace:
+echo     container_name: "%project_name%"
+echo     image: %project_name%
+echo     build:
+echo       context: .
+echo       dockerfile: Dockerfile
+echo     volumes:
+echo       - ./storage:/src/storage
+echo     networks:
+echo       - custom
+echo     command: tail -f /dev/null
+echo.
+echo networks:
+echo   custom:
+echo     driver: bridge
+echo.
+echo #volumes:
+echo #  %project_name%_data:
+) > %project_dir%\%project_name%\%project_name%\docker-compose.yml
+
+REM Create Makefile
+(
+echo check:
+echo 	python main.py
+echo build:
+echo 	docker build -t %project_name% .
+echo up:
+echo 	docker-compose up -d
+echo down:
+echo 	docker-compose down
+) > %project_dir%\%project_name%\%project_name%\Makefile
 
 cd %project_dir%\%project_name%\%project_name%
 poetry install
