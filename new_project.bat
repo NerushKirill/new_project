@@ -132,6 +132,20 @@ echo up:
 echo 	docker-compose up -d
 echo down:
 echo 	docker-compose down
+echo app:
+echo 	poetry run uvicorn src.main:app --reload --host 127.0.0.1 --port 8000
+echo test:
+echo 	poetry run coverage run -m pytest .
+echo 	poetry run coverage html
+echo 	poetry run black ./
+echo 	poetry run ruff check --fix .
+echo #	poetry run mypy ./
+echo #	poetry run pylint ./src
+echo migrations:
+echo #	alembic init migrations
+echo #	alembic init -t async migrations
+echo 	alembic revision --autogenerate -m "make migrations"
+echo 	alembic upgrade heads
 ) > %project_dir%\%project_name%\%project_name%\Makefile
 
 cd %project_dir%\%project_name%\%project_name%
