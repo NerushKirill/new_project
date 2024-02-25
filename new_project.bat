@@ -62,6 +62,20 @@ echo.
 echo.[tool.poetry.group.dev.dependencies]
 echo.
 echo.
+echo [tool.mypy]
+echo python_version = 3.11
+echo plugins = "sqlalchemy.ext.mypy.plugin"
+echo ignore_missing_imports = true
+echo.
+echo [[tool.mypy.overrides]]
+echo module = "*.migrations.*"
+echo ignore_errors = true
+echo.
+echo [tool.ruff]
+echo # https://beta.ruff.rs/docs/configuration/
+echo select = ['E', 'W', 'F', 'I', 'B', 'C4', 'ARG', 'SIM']
+echo ignore = ['W291', 'W292', 'W293']
+echo.
 echo [build-system]
 echo requires = ["poetry-core"]
 echo build-backend = "poetry.core.masonry.api"

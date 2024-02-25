@@ -1,4 +1,0 @@
-pip install poetry
-cd .\bots_settings\
-poetry init
-poetry add pydantic-settings
