@@ -120,10 +120,10 @@ celerybeat.pid
 *.sage.py
 
 # Environments
-#.env.*
+# .env.dev
 #.venv
 #env/
-#venv/
+/venv
 #ENV/
 #env.bak/
 #venv.bak/
@@ -160,12 +160,13 @@ cython_debug/
 .idea/
 
 # MyProjets
-.github
-.gitignore
+/.github
+/docs
+/logs
+/tests
 .dockerignore
-Dockerfile
-#LICENSE
-Makefile
+.gitignore
+commands.md
 docker-compose.yml
+Dockerfile
 pre-commit.yml
-#/tests
